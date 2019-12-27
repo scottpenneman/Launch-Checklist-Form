@@ -28,34 +28,35 @@ window.addEventListener("load", function() {
       let inputCopilotName = form.copilotName.value;
       let inputFuelLevel = form.fuelLevel.value;
       let inputCargoMass = form.cargoMass.value;
+      let error = false;
 
       if (inputPilotName === "" || !isNaN(inputPilotName) || inputCopilotName === "" || !isNaN(inputCopilotName)) {
          alert("Please make sure the Pilot and Co-pilot have names with only letters before submitting the form.");
+         error = true;
          event.preventDefault();
       };
 
       if (isNaN(inputFuelLevel) || inputFuelLevel === "" || isNaN(inputCargoMass) || inputCargoMass === "") {
          alert("Plese make sure that there are numeric values for the Fuel Level and the Cargo Mass.");
+         error = true;
          event.preventDefault();
       };
 
       Number(inputFuelLevel);
+      Number(inputCargoMass);
 
       document.getElementById("pilotStatus").innerHTML = `Pilot: ${inputPilotName}`;
       document.getElementById("copilotStatus").innerHTML = `Copilot: ${inputCopilotName}`;
 
-      if (inputFuelLevel < 10000 || inputCargoMass > 10000 || !isNaN(inputPilotName) || !isNaN(inputCoPilotName) || isNaN(inputFuelLevel) || isNaN(inputCargoMass)) {
+      if (inputFuelLevel < 10000 || inputCargoMass > 10000 || error) {
          document.getElementById("faultyItems").style.visibility = "visible";
          document.getElementById("launchStatus").style.color = "red";   
          document.getElementById("launchStatus").innerHTML = "Shuttle Not Ready for Launch";
          if (inputFuelLevel < 10000) {
-            document.getElementById("fuelStatus").innerHTML = "There is not enough fuel for the journey.";
-         } else {
-            document.getElementById("fuelStatus").innerHTML = "Enough fuel for launch.";
-         } if (inputCargoMass > 10000) {
-            document.getElementById("cargoStatus").innerHTML = "There is too much cargo for the journey.";
-         } else {
-            document.getElementById("cargoStatus").innerHTML = "Light enough for launch";
+            document.getElementById("fuelStatus").innerHTML = "Not enough fuel for launch."; 
+         } 
+         if (inputCargoMass > 10000) {
+            document.getElementById("cargoStatus").innerHTML = "Cargo too heavy for launch.";
          }
          event.preventDefault();
       } else {
